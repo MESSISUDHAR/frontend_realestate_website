@@ -25,7 +25,7 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-border shadow-sm p-5 sticky top-24">
+    <div className="bg-white rounded-2xl border border-border shadow-sm p-4 sm:p-5 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto">
       <div className="flex items-center gap-2 mb-6">
         <Filter className="w-5 h-5 text-primary" />
         <h3 className="font-bold text-navy">Filters</h3>
@@ -33,15 +33,15 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
 
       <div className="space-y-6">
         <div>
-          <h4 className="text-sm font-semibold text-navy mb-3">Property Type</h4>
+          <h4 className="text-xs sm:text-sm font-semibold text-navy mb-3">Property Type</h4>
           <div className="space-y-2">
             {propertyTypes.map((type) => (
-              <label key={type} className="flex items-center gap-2 text-sm text-muted cursor-pointer">
+              <label key={type} className="flex items-center gap-2 text-xs sm:text-sm text-muted cursor-pointer hover:text-navy transition-colors">
                 <input
                   type="checkbox"
                   checked={(filters.propertyTypes || []).includes(type)}
                   onChange={() => toggleArray("propertyTypes", type)}
-                  className="rounded border-border text-primary focus:ring-primary"
+                  className="rounded border-border text-primary focus:ring-primary cursor-pointer"
                 />
                 {type}
               </label>
@@ -50,16 +50,16 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-navy mb-3">BHK Type</h4>
+          <h4 className="text-xs sm:text-sm font-semibold text-navy mb-3">BHK Type</h4>
           <div className="flex flex-wrap gap-2">
             {bhkOptions.map((bhk) => (
               <button
                 key={bhk}
                 onClick={() => toggleArray("bhk", bhk)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+                className={`px-2 sm:px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors hover:scale-105 active:scale-95 ${
                   (filters.bhk || []).includes(bhk)
-                    ? "bg-primary-light border-primary text-primary"
-                    : "border-border text-muted hover:border-primary"
+                    ? "bg-primary-light border-primary text-primary shadow-sm"
+                    : "border-border text-muted hover:border-primary hover:bg-surface"
                 }`}
               >
                 {bhk}
@@ -69,21 +69,21 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-navy mb-3">Price Range</h4>
+          <h4 className="text-xs sm:text-sm font-semibold text-navy mb-3">Price Range</h4>
           <div className="grid grid-cols-2 gap-2 mb-3">
             <input
               type="text"
               placeholder="Min ₹"
               value={filters.minPrice || ""}
               onChange={(e) => onChange({ ...filters, minPrice: e.target.value })}
-              className="px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="px-2 sm:px-3 py-2 text-xs sm:text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
             />
             <input
               type="text"
               placeholder="Max ₹"
               value={filters.maxPrice || ""}
               onChange={(e) => onChange({ ...filters, maxPrice: e.target.value })}
-              className="px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="px-2 sm:px-3 py-2 text-xs sm:text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -91,10 +91,10 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
               <button
                 key={range}
                 onClick={() => setSingle("priceRange", range)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
+                className={`px-2 sm:px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors hover:scale-105 active:scale-95 ${
                   filters.priceRange === range
-                    ? "bg-primary-light border-primary text-primary"
-                    : "border-border text-muted hover:border-primary"
+                    ? "bg-primary-light border-primary text-primary shadow-sm"
+                    : "border-border text-muted hover:border-primary hover:bg-surface"
                 }`}
               >
                 {range}
@@ -106,16 +106,16 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
         {showMore && (
           <>
             <div>
-              <h4 className="text-sm font-semibold text-navy mb-3">Possession Status</h4>
+              <h4 className="text-xs sm:text-sm font-semibold text-navy mb-3">Possession Status</h4>
               <div className="space-y-2">
                 {possessionOptions.map((opt) => (
-                  <label key={opt} className="flex items-center gap-2 text-sm text-muted cursor-pointer">
+                  <label key={opt} className="flex items-center gap-2 text-xs sm:text-sm text-muted cursor-pointer hover:text-navy transition-colors">
                     <input
                       type="radio"
                       name="possession"
                       checked={filters.possession === opt}
                       onChange={() => setSingle("possession", opt)}
-                      className="text-primary focus:ring-primary"
+                      className="text-primary focus:ring-primary cursor-pointer"
                     />
                     {opt}
                   </label>
@@ -124,15 +124,15 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-navy mb-3">Amenities</h4>
+              <h4 className="text-xs sm:text-sm font-semibold text-navy mb-3">Amenities</h4>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {amenityOptions.map((a) => (
-                  <label key={a} className="flex items-center gap-2 text-sm text-muted cursor-pointer">
+                  <label key={a} className="flex items-center gap-2 text-xs sm:text-sm text-muted cursor-pointer hover:text-navy transition-colors">
                     <input
                       type="checkbox"
                       checked={(filters.amenities || []).includes(a)}
                       onChange={() => toggleArray("amenities", a)}
-                      className="rounded border-border text-primary focus:ring-primary"
+                      className="rounded border-border text-primary focus:ring-primary cursor-pointer"
                     />
                     {a}
                   </label>
@@ -144,13 +144,13 @@ export default function FilterSidebar({ filters, onChange, onApply }) {
 
         <button
           onClick={() => setShowMore(!showMore)}
-          className="flex items-center gap-2 text-sm text-primary font-medium"
+          className="flex items-center gap-2 text-xs sm:text-sm text-primary font-medium hover:text-primary-dark transition-colors w-full justify-center sm:justify-start"
         >
           <SlidersHorizontal className="w-4 h-4" />
           {showMore ? "Show less filters" : "More filters"}
         </button>
 
-        <Button className="w-full" onClick={onApply}>Apply Filters</Button>
+        <Button className="w-full active:scale-95 transition-transform" onClick={onApply}>Apply Filters</Button>
       </div>
     </div>
   );

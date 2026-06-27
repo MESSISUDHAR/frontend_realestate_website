@@ -38,17 +38,25 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 md:h-[72px]">
           <Logo />
 
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-8">
             {navLinks.map((link) => (
               <button
                 key={link}
-                className="flex items-center gap-1 text-sm font-medium text-muted hover:text-navy transition-colors"
+                className="flex items-center gap-1 text-xs md:text-sm font-medium text-muted hover:text-navy transition-colors whitespace-nowrap"
               >
                 {link}
                 <ChevronDown className="w-4 h-4" />
               </button>
             ))}
           </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-surface text-navy transition-colors"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
 
           <div className="flex items-center gap-2 sm:gap-3">
             <button className="hidden sm:flex p-2 rounded-lg hover:bg-surface text-muted hover:text-navy transition-colors">
@@ -112,26 +120,35 @@ export default function Navbar() {
             <Link to="/listings" className="hidden sm:block">
               <Button size="sm">Post Property</Button>
             </Link>
-
-            <button
-              className="lg:hidden p-2 rounded-lg hover:bg-surface"
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
         </div>
 
         {mobileOpen && (
-          <div className="lg:hidden border-t border-border py-4 space-y-2">
+          <div className="md:hidden border-t border-border py-4 space-y-3 bg-surface">
             {navLinks.map((link) => (
-              <button key={link} className="block w-full text-left px-2 py-2 text-sm font-medium text-muted hover:text-navy">
+              <button 
+                key={link} 
+                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted hover:text-navy hover:bg-white rounded transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
                 {link}
               </button>
             ))}
-            <div className="pt-2 flex flex-col gap-2">
-              <Link to="/dashboard" className="px-2 py-2 text-sm font-medium" onClick={() => setMobileOpen(false)}>My Dashboard</Link>
-              <Link to="/login" className="px-2 py-2 text-sm text-danger" onClick={() => setMobileOpen(false)}>Sign out</Link>
+            <div className="border-t border-border pt-3 mt-3">
+              <Link 
+                to="/dashboard" 
+                className="block px-4 py-2 text-sm font-medium text-navy hover:bg-white rounded transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                My Dashboard
+              </Link>
+              <Link 
+                to="/login" 
+                className="block px-4 py-2 text-sm text-danger hover:bg-red-50 rounded transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                Sign out
+              </Link>
             </div>
           </div>
         )}
