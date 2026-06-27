@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Heart,
   Bell,
@@ -15,11 +15,17 @@ import Button from "../common/Button";
 import Avatar from "../common/Avatar";
 import { Logo } from "./MainLayout";
 
-const navLinks = ["Buy", "Rent", "Commercial", "New Projects"];
+const navLinks = [
+  { name: "Buy", path: "/buy" },
+  { name: "Rent", path: "/rent" },
+  { name: "Commercial", path: "/commercial" },
+  { name: "New Projects", path: "/new-projects" },
+];
 
 export default function Navbar() {
   const [userOpen, setUserOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -32,21 +38,32 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-[72px]">
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
 
           <nav className="hidden md:flex items-center gap-4 lg:gap-8">
             {navLinks.map((link) => (
-              <button
-                key={link}
-                className="flex items-center gap-1 text-xs md:text-sm font-medium text-muted hover:text-navy transition-colors whitespace-nowrap"
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`flex items-center gap-1 text-xs md:text-sm font-medium transition-colors whitespace-nowrap pb-2 border-b-2 ${
+                  isActive(link.path)
+                    ? "text-primary border-primary"
+                    : "text-muted hover:text-navy border-transparent hover:border-muted"
+                }`}
               >
-                {link}
+                {link.name}
                 <ChevronDown className="w-4 h-4" />
-              </button>
+              </Link>
             ))}
           </nav>
 
@@ -126,13 +143,18 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-border py-4 space-y-3 bg-surface">
             {navLinks.map((link) => (
-              <button 
-                key={link} 
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted hover:text-navy hover:bg-white rounded transition-colors"
+              <Link 
+                key={link.path}
+                to={link.path}
+                className={`block w-full text-left px-4 py-2 text-sm font-medium rounded transition-colors ${
+                  isActive(link.path)
+                    ? "bg-primary-light text-primary border-l-4 border-primary pl-3"
+                    : "text-muted hover:text-navy hover:bg-white"
+                }`}
                 onClick={() => setMobileOpen(false)}
               >
-                {link}
-              </button>
+                {link.name}
+              </Link>
             ))}
             <div className="border-t border-border pt-3 mt-3">
               <Link 
